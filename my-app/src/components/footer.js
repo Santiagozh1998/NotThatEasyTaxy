@@ -1,4 +1,7 @@
+//Dependencias
 import React, { Component } from 'react';
+
+//Componentes
 import './styles.css';
 
 class Footer extends Component{
