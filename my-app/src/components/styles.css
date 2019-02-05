@@ -16,3 +16,159 @@
     font-family: 'Roboto', sans-serif;
     text-align: right;
 }
+
+/*Main and Login*/
+.initial-text{
+    text-align: center;
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+
+.main{
+    width: 75%;
+    margin: 40px auto;
+    display: flex;
+    align-items: center;
+}
+
+.container{
+    margin: 0 auto;
+    width: 40%;
+}
+
+.image-taxi{
+    display: block;
+}
+
+.button-a, .button-b{
+    text-align: center;
+    font-size: 15px;
+    font-family: 'Allerta', sans-serif;
+    display: block;
+    margin: 40px auto;
+    padding: 20px;
+    border: 0px;
+    border-radius: 10px;
+    width: 75%;
+}
+
+.button-a{
+    background: #00A6FF;
+}
+
+.button-b{
+    background: #006AFF;
+       
+}
+
+.box-login{
+    padding-left: 10px;
+    padding-right: 10px;
+    background: #f4f3f3;
+    border: 0.5px solid #343F4B;
+    border-radius: 10px;
+}
+
+.login-text{
+    text-decoration: none;
+}
+
+.form-login{
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+
+
+.login-button{
+    text-align: center;
+    font-size: 20px;
+    font-family: 'Allerta', sans-serif;
+    display: block;
+    margin: 30px auto;
+    padding: 20px;
+    border: 0px;
+    border-radius: 10px;
+    width: 80%; 
+    background: #006AFF;
+       
+}
+
+.field-login{
+    width: 90%;
+    padding: 12px;
+    border: solid 1px #ccc;
+    border-radius: 10px;
+    margin: 15px auto;
+}
+
+.login-title{
+    text-align: center;
+    font-size: 25px;
+    font-family: 'Allerta', sans-serif;
+    margin-top: 40px;
+    margin-bottom: 10px;
+}
+
+/*Forms*/
+.container-forms{
+    background: #f4f3f3;
+    border: 0.5px solid #343F4B;
+    border-radius: 10px;
+    width: 45%;
+    margin: 40px auto;
+    padding-top: 20px;
+}
+
+.text-forms{
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 25px;
+    font-family: 'Allerta', sans-serif;
+}
+
+.form-users{
+    text-align: center;
+    margin: 0 auto;
+}
+
+.field{
+    padding: 12px;
+    border: solid 1px #ccc;
+    border-radius: 10px;
+    margin: 15px auto;
+}
+
+.text-field{
+    font-size: 15px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.other{
+    width: 65%;
+}
+
+.name{
+    width: 30%;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.date{
+    display: block;
+}
+
+.button-forms{
+    text-align: center;
+    font-size: 20px;
+    font-family: 'Allerta', sans-serif;
+    display: block;
+    margin: 30px auto;
+    padding: 20px;
+    border: 0px;
+    border-radius: 10px;
+    width: 50%; 
+    background: #006AFF;
+}

@@ -4,12 +4,12 @@ import { BrowserRouter as Router} from 'react-router-dom';
 import { Route } from 'react-router-dom';
 
 //Componentes
-import Main from './components/Main/main';
-import Login from './components/Login/login';
+import Main from './components/main';
+import Login from './components/login';
 import Navigation from './components/navigation';
 import Footer from './components/footer';
-import FormClient from './components/Forms/client';
-import FormDriver from './components/Forms/driver';
+import FormClient from './components/client';
+import FormDriver from './components/driver';
 
 class App extends Component{
   render() {
@@ -40,7 +40,7 @@ class App extends Component{
           }/>
         </div>        
       </Router>
-      <Footer />
+        <Footer />
       </div>
       
     );
@@ -49,3 +49,7 @@ class App extends Component{
 
 export default App;
 
+/*
+<FormClient />
+
+*/
