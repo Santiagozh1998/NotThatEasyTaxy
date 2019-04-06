@@ -1,0 +1,352 @@
+/*All pages*/
+.navbar{
+    background: #006AFF;   
+    padding: 15px;
+}
+
+.titlePage{
+    text-decoration: none;
+    font-size: 25px;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+}
+
+
+.footer-bar{
+    background: #343F4B;   
+    padding: 20px;
+    font-size: 15px;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    text-align: right;
+}
+
+/*Main and Login*/
+.initial-text{
+    text-align: center;
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+
+.main{
+    width: 75%;
+    margin: 40px auto;
+    display: flex;
+    align-items: center;
+}
+
+.container{
+    margin: 0 auto;
+    width: 40%;
+}
+
+.image-taxi{
+    display: block;
+}
+
+.button-a, .button-b{
+    text-align: center;
+    font-size: 15px;
+    font-family: 'Allerta', sans-serif;
+    display: block;
+    margin: 40px auto;
+    padding: 20px;
+    border: 0px;
+    border-radius: 10px;
+    width: 75%;
+}
+
+.button-a{
+    background: #00A6FF;
+}
+
+.button-b{
+    background: #006AFF;
+       
+}
+
+.box-login{
+    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background: #f4f3f3;
+    border: 0.5px solid #343F4B;
+    border-radius: 10px;
+}
+
+.login-text{
+    text-decoration: none;
+}
+
+.form-login{
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+
+
+.login-button{
+    text-align: center;
+    font-size: 20px;
+    font-family: 'Allerta', sans-serif;
+    display: block;
+    margin: 30px auto;
+    padding: 20px;
+    border: 0px;
+    border-radius: 10px;
+    width: 80%; 
+    background: #006AFF;
+       
+}
+
+.field-login{
+    width: 90%;
+    padding: 12px;
+    border: solid 1px #ccc;
+    border-radius: 10px;
+    margin: 15px auto;
+}
+
+.login-title{
+    text-align: center;
+    font-size: 25px;
+    font-family: 'Allerta', sans-serif;
+    margin-top: 40px;
+    margin-bottom: 10px;
+}
+
+/*Forms*/
+.container-forms{
+    background: #f4f3f3;
+    border: 0.5px solid #343F4B;
+    border-radius: 10px;
+    width: 45%;
+    margin: 40px auto;
+    padding-top: 20px;
+}
+
+.text-forms{
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 25px;
+    font-family: 'Allerta', sans-serif;
+}
+
+.form-users{
+    text-align: center;
+    margin: 0 auto;
+}
+
+.field{
+    padding: 12px;
+    border: solid 1px #ccc;
+    border-radius: 10px;
+    margin: 15px auto;
+}
+
+.text-field{
+    font-size: 15px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.other{
+    width: 65%;
+}
+
+.name{
+    width: 30%;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.date{
+    width: 15%;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.button-forms{
+    text-align: center;
+    font-size: 20px;
+    font-family: 'Allerta', sans-serif;
+    display: block;
+    margin: 30px auto;
+    padding: 20px;
+    border: 0px;
+    border-radius: 10px;
+    width: 50%; 
+    background: #006AFF;
+}
+
+/*Maps*/
+.map{
+    height: 580px;
+    z-index: 1;
+}
+
+.image-ruta, .image-cancel{
+    background: white;
+    padding: 10px;
+    border-radius: 20px;
+}
+
+.image-ruta{
+    position: absolute;
+    top: 80px;
+    right: 20px;
+    z-index: 3;
+}
+
+.image-cancel{
+    position: absolute;
+    top: 160px;
+    right: 20px;
+    z-index: 3;
+}
+
+.errorPage{
+    text-align: center;
+    font-size: 50px;
+    padding: 150px;
+}
+
+.container-modal{
+    border-radius: 10px;
+    text-align: center;
+}
+
+.modal-text{
+    padding: 10px;
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.button-modal{
+    border: 0;
+    border-radius: 10px;
+    background: #ff5959;
+    padding: 15px 70px;
+    margin: 20px auto;
+    display: block;
+    color: white;
+    font-size: 15px;
+    font-family: 'Roboto', sans-serif;
+}
+
+
+
+.input-favorite{
+    padding: 15px;
+    width: 50%;
+    font-size: 15px;
+    font-family: 'Roboto', sans-serif;
+    border-radius: 10px;
+    border: solid 1px #273036;
+}
+
+.image-wait{
+    text-align: center;
+}
+
+.text-wait{
+    margin-top: 30px;
+    font-size: 20px;
+    font-family: 'Allerta', sans-serif;
+}
+
+.Container-Main{
+    display: flex;
+
+}
+
+.Container-Options{
+    background: #273036;
+    width: 20%;   
+    height: 580px;
+}
+
+.button-options{
+    display: block;
+    background: #273036;
+    color: white;
+    font-size: 15px;
+    font-family: 'Allerta', sans-serif;
+    padding: 20px;
+    width: 100%;
+    border: solid 1px #273036;
+}
+
+.button-options:hover{
+    background: white;
+    color: #273036;
+    border: solid 1px #273036;
+}
+
+.button-options:focus{
+    background: white;
+    color: #273036;
+    border: solid 1px #273036;
+}
+
+.Container-window{
+    background: #f4f3f3;
+    width: 70%;
+    margin: 0 auto;
+}
+
+.fila-profile{
+    background: #f4f3f3;
+    display: flex;
+    width: 95%;
+    margin: 0 auto;
+}
+
+.columna-profile{
+    display: flex;
+    background: #f4f3f3;
+    width: 45%;
+    margin: 10px auto;
+    padding: 10px;
+    border: solid 1px #273036;
+}
+
+.input-profile{
+    padding: 12px;
+    width: 55%;
+    border: 0;
+    border-radius: 5px;
+    font-size: 15px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.text-profile{
+    width: 40%;
+    font-size: 15px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.container-button{
+    width: 20%;
+    margin: 10px auto;
+}
+
+.button-profile{
+    margin: 15px;
+    padding: 15px;
+    width: 100%;
+    background: #f7931e;
+    border-radius: 5px;
+    border: 0;
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.title-profile{
+    text-align: center;
+    margin: 30px;
+    font-size: 20px;
+    font-family: 'Allerta', sans-serif;
+}
