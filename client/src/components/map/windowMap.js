@@ -37,7 +37,7 @@ class WindowMap extends Component {
           
           if (this.state.message === "User is not logged") {
     
-            window.location = "/Login"
+            window.location = "/"
           }
       }       
         

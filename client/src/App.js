@@ -6,7 +6,8 @@ import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 //Componentes
 import Navigation from './components/navigation';
 import Main from './components/main/main';
-import Login from './components/main/login';
+import LoginDriver from './components/main/loginDriver';
+import LoginUser from './components/main/loginUser';
 import FormClient from './components/forms/client';
 import FormDriver from './components/forms/driver';
 import WindowMaps from './components/map/windowMap';
@@ -25,7 +26,8 @@ export default class App extends Component {
             <Router>
               <Switch>
                   <Route exact path="/" component={Main}/>
-                  <Route exact path="/Login" component={Login}/>
+                  <Route exact path="/LoginDriver" component={LoginDriver}/>
+                  <Route exact path="/LoginUser" component={LoginUser}/>
                   <Route exact path="/FormUser" component={FormClient}/>
                   <Route exact path="/FormDriver" component={FormDriver}/>
                   <Route exact path="/Maps" component={WindowMaps}/>

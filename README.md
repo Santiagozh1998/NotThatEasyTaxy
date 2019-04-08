@@ -10,8 +10,6 @@ mkdir NotThatEasyTaxy
 cd NotThatEasyTaxy
 ```
 
-
-
 Crear un archivo que se llame package.json con el siguiente contenido:
 
 ```
@@ -38,11 +36,10 @@ Crear un archivo que se llame package.json con el siguiente contenido:
   }
 }
 ```
-Crear una carpeta src para almacenar el código fuente de la apliación:
-```
-mkdir src
-```
-Crear el primer archivo para nuestro primer servicio web que escuchará en el puerto 5000 en src/index.js
+
+Creamos el servidor y el cliente por separado.
+
+Creamos el primer archivo para nuestro primer servicio web que escuchará en el puerto 5000.
 ```
 var express = require('express')
 var app = express()
@@ -55,9 +52,6 @@ app.listen(5000, function () {
   console.log('Example app listening on port 5000!')
 })
 ```
-
-Crear un repositorio en github para guardar este proyecto:
-
 
 ## Docker con nodejs y npm
 
