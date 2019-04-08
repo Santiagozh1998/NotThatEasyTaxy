@@ -50,7 +50,7 @@ class Main extends Component{
                                 Registrate para tener a la mano la mejor opción de transporte.<br/><br/>
                                     ¡Pidelo desde cualquier lugar!
                             </h1>
-                            <div className="container-buttons">
+                            <div>
                                 <Link className="login-text" to="/FormDriver">
                                     <button className="button-a">
                                             Registrarse como socio
@@ -61,9 +61,14 @@ class Main extends Component{
                                             Registrarse como usuario
                                     </button>
                                 </Link>
-                                <Link className="login-text" to="/Login">
+                                <Link className="login-text" to="/LoginDriver">
                                     <button className="button-b" >
-                                            ¿Tienes una cuenta? Inicia sesión
+                                            Inicia sesión como socio
+                                    </button>
+                                </Link>
+                                <Link className="login-text" to="/LoginUser">
+                                    <button className="button-b" >
+                                            Inicia sesión como usuario
                                     </button>
                                 </Link>
                             </div>                                     
