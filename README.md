@@ -18,6 +18,7 @@ En caso de no poder iniciar la app, dentro de las carpetas server y client insta
 ```
 cd client
 npm install
+cd..
 cd server
 npm install
 npm run dev
