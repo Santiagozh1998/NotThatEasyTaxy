@@ -13,7 +13,6 @@ npm install
 cd..
 cd server
 npm install
-npm run dev
 ```
 Ingresar a la carpeta server e inicializar la app:
 ```
