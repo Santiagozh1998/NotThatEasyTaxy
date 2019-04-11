@@ -17,12 +17,15 @@ class Main extends Component{
 
         this.state = {
             message: "User is not logged",
+            typeUser: "",
             isChanged: 0
         }
 
         fetch('/main')
         .then(res => res.json())
-        .then(res => this.setState({message: res.status}))
+        .then(res => this.setState({
+            message: res.status,
+            typeUser: res.typeUser}))
         .catch(err => console.log(err))
 
         componentCurrent = 
@@ -50,20 +53,25 @@ class Main extends Component{
                                 Registrate para tener a la mano la mejor opción de transporte.<br/><br/>
                                     ¡Pidelo desde cualquier lugar!
                             </h1>
-                            <div className="container-buttons">
-                                <Link className="login-text" to="/FormDriver">
+                            <div>
+                                <Link className="login-text" to="/Form/Driver">
                                     <button className="button-a">
                                             Registrarse como socio
                                     </button>
                                 </Link>
-                                <Link className="login-text" to="/FormUser">
+                                <Link className="login-text" to="/Form/User">
                                     <button className="button-a">
                                             Registrarse como usuario
                                     </button>
                                 </Link>
-                                <Link className="login-text" to="/Login">
+                                <Link className="login-text" to="/Login/Driver">
                                     <button className="button-b" >
-                                            ¿Tienes una cuenta? Inicia sesión
+                                            Inicia sesión como socio
+                                    </button>
+                                </Link>
+                                <Link className="login-text" to="/Login/User">
+                                    <button className="button-b" >
+                                            Inicia sesión como usuario
                                     </button>
                                 </Link>
                             </div>                                     
@@ -76,7 +84,14 @@ class Main extends Component{
             
             if(this.state.message === "User is logged"){
                 
-                window.location = "/Maps"
+                if(this.state.typeUser === "User"){
+
+                    window.location = "/Maps/User"
+                }
+                else {
+
+                    window.location = "/Maps/Driver"
+                }
             }
         }
     }
