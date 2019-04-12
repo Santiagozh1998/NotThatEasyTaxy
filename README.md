@@ -19,25 +19,3 @@ Ingresar a la carpeta server e inicializar la app:
 cd server
 npm run dev
 ```
-
-## Iniciar docker con nodejs y npm
-
-Los siguientes pasos fueron tomados de una clase de BD del profesor Andres Castillo
-Creamos el Dockerfile con el siguiente contenido:
-
-```
-FROM node:6-onbuild
-# replace this with your application's default port
-EXPOSE 5000
-```
-Construir y arrancar el contenedor de nodejs:
-```
-sudo docker build -t node-app .
-sudo docker run -it --rm -p 5000:5000 --name my-server-app node-app
-sudo docker run -it --rm -p 5000:5000 --link some-postgres:postgres --name my-server-app node-app
-```
-El contenedor correra la aplicacion que se encuentre referenciada por el archivo package.json
-El contenedor de postgres debe estar corriendo y debe llamarse some-postgres
-```
-docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d node-app
-```
