@@ -47,6 +47,8 @@ class Maps extends Component {
         this.createRoute = this.createRoute.bind(this);
         this.deleteRoute = this.deleteRoute.bind(this);
         this.asyncCall = this.asyncCall.bind(this);
+        this.openModalDelete = this.openModalDelete.bind(this);
+        this.closeModalDelete = this.closeModalDelete.bind(this);
 
         this.state = {
             modal: {
@@ -54,6 +56,7 @@ class Maps extends Component {
                 open: false,
                 optionMarker: 0
             },
+            openDelete: false,
             location: {
                 lat: 0,
                 lng: 0                
@@ -201,7 +204,6 @@ class Maps extends Component {
         //Agregando marcadores o indicando la ruta
         map.on('contextmenu', (e) => {
             
-            console.log(e)
             this.handleRightClick(e);
             
             
@@ -551,6 +553,19 @@ class Maps extends Component {
     }
 
 
+    openModalDelete() {
+        this.setState({
+            openDelete: true
+        });
+    }
+
+    closeModalDelete() {
+        this.setState({
+            openDelete: false
+        });
+    }
+
+
     render() {
 
 
@@ -683,7 +698,12 @@ class Maps extends Component {
                             }}>Ir desde aqui</button>
                             <button className="button-modal"
                                 onClick={ () => {
-    
+                                    this.openModalDelete();
+                                    this.closeModal();
+                            }}>Eliminar favorito</button>
+                            <button className="button-modal"
+                                onClick={ () => {
+                                    
                                     this.closeModal();
                             }}>Cancelar</button>
                         </div>
@@ -722,6 +742,42 @@ class Maps extends Component {
                     onClose={this.closeModal}
                     >
                     {componentePop}
+                </Popup>
+                <Popup
+                    className="container-modal"
+                    open={this.state.openDelete}
+                    onClose={this.closeModalDelete}
+                    >
+                    <div>  
+                        <h3 className="modal-text">Estas seguro que deseas hacer esto?</h3>
+                        <button className="button-modal"
+                            onClick={ () => {
+
+                                var temporal = [coordstemp.latlng.lat, coordstemp.latlng.lng];
+
+                                fetch('/maps/user/deletefavorite', {
+                                    method: 'POST',
+                                    headers: {
+                                        Accept: "application/json, text/plain, */*",
+                                        "Content-Type": "application/json"
+                                    },
+                                    body: JSON.stringify({
+                                        Cellphone: this.state.User.Cellphone,
+                                        lat: temporal[0],
+                                        lng: temporal[1]
+                                    })
+                                })
+                                
+                                
+
+                                this.closeModalDelete();
+                        }}>Eliminar</button>
+                        <button className="button-modal"
+                            onClick={ () => {
+
+                                this.closeModalDelete();
+                        }}>Cancelar</button>
+                    </div>
                 </Popup>
             </div>
             

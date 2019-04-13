@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Popup from 'reactjs-popup';
 import '../styles.css';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Estrella from '../images/starYellow.png';
@@ -9,12 +10,24 @@ class User extends Component{
     constructor(props) {
         super(props);
 
+        this.updateCellphone = this.updateCellphone.bind(this);
+        this.updateName = this.updateName.bind(this);
+        this.updateLastname = this.updateLastname.bind(this);
+        this.updateAddress = this.updateAddress.bind(this);
+        this.updateOldpassword = this.updateOldpassword.bind(this);
+        this.updatePassword = this.updatePassword.bind(this);
+        this.updateRepitpassword = this.updateRepitpassword.bind(this);
+        this.updateNrocard = this.updateNrocard.bind(this);
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+        this.checkDelete = this.checkDelete.bind(this);
 
         this.state = {
+            message: "",
             windowOpen : 0,
+            Cellphone: this.props.Cellphone,
             User: {
                 profile:{
-                    celular: '',
                     nombre: '',
                     apellido: '',
                     direccion: '',
@@ -23,10 +36,26 @@ class User extends Component{
                 },
                 rides: [],
                 start: 1
-            }
+            },
+            inputCellphone: '',
+            inputName: '',
+            inputLastname: '',
+            inputAddress: '',
+            inputOldpassword: '',
+            inputPassword: '',
+            inputRepitpassword: '',
+            inputNrocard: '',
+            open: false
         }
 
-        fetch('/user/informacion')
+        fetch('/user/informacion', {
+            method: 'POST',
+            headers: {
+                Accept: "application/json, text/plain, */*",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({Cellphone: this.state.Cellphone})
+        })
         .then(res => res.json())
         .then(res => this.setState({
             User: {
@@ -40,10 +69,120 @@ class User extends Component{
 
     }
 
+    componentDidUpdate() {
+
+        if(this.state.message === "Incorect password"){
+            this.setState({
+                message: ""
+            })
+            this.openModal()
+        }
+
+        if (this.state.message === "User is not logged"){
+            window.location = "/"
+        }
+    }
+
     fetchRides() {
 
     }
 
+    updateCellphone(event) {
+        this.setState({
+            inputCellphone: event.target.value
+        })
+    }
+
+    updateName(event) {
+        this.setState({
+            inputName: event.target.value
+        })
+    }
+
+    updateLastname(event) {
+        this.setState({
+            inputLastname: event.target.value
+        })
+    }
+
+    updateAddress(event) {
+        this.setState({
+            inputAddress: event.target.value
+        })
+    }
+
+    updateOldpassword(event) {
+        this.setState({
+            inputOldpassword: event.target.value
+        })
+    }
+
+    updatePassword(event) {
+        this.setState({
+            inputPassword: event.target.value
+        })
+    }
+
+    updateRepitpassword(event) {
+        this.setState({
+            inputRepitpassword: event.target.value
+        })
+    }
+
+    updateNrocard(event) {
+        this.setState({
+            inputNrocard: event.target.value
+        })
+    }
+
+    checkDelete() {
+
+        var flag = 0;
+
+        if(this.state.inputPassword === "" || this.state.inputRepitpassword === "" 
+            || this.state.inputPassword != this.state.inputRepitpassword){
+            
+            flag = 1;
+        }
+
+        if(flag === 1){
+            this.openModal();
+        }
+        else {
+
+            var data = {
+                Cellphone : this.state.Cellphone,
+                Password: this.state.inputPassword
+            }
+
+            fetch('/user/delete', {
+                method: 'POST',
+                headers: {
+                    Accept: "application/json, text/plain, */*",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+            .then(res => res.json())
+            .then(res => this.setState({
+                message: res.status
+            }))
+            .catch(err => console.log(err))
+
+        }
+    }
+
+    openModal() {
+        this.setState({
+            open: true
+        })
+    }
+
+    closeModal() {
+        this.setState({
+            open: false
+        })
+    }
 
     render() {
 
@@ -52,6 +191,11 @@ class User extends Component{
         if(this.state.windowOpen === 0) {
             windowCurrent =
                 <div className="Container-window">
+                <InfiniteScroll
+                    className="Scroll"
+                    hasMore={false}
+                    height={540}
+                >
                     <h3 className="title-profile">Información de la cuenta</h3>
                         <div className="fila-profile">
                             <div className="columna-profile">
@@ -66,7 +210,7 @@ class User extends Component{
                         <div className="fila-profile">
                             <div className="columna-profile">
                                 <p className="text-profile">Celular</p>
-                                <input className="input-profile" id="cellphone" type="text" placeholder={this.state.User.profile.celular}/>
+                                <input className="input-profile" id="cellphone" type="text" placeholder={this.state.Cellphone}/>
                             </div>
                             <div className="columna-profile">
                                 <p className="text-profile">Vieja Contraseña</p>
@@ -98,6 +242,26 @@ class User extends Component{
                             Actualizar
                         </button>       
                     </div>
+                    <div>
+                        <h3 className="title-profile">Eliminar perfil</h3>
+                        <div className="fila-profile">
+                            <div className="columna-profile">
+                                <p className="text-profile">Nueva Contraseña</p>
+                                <input onChange={this.updatePassword} className="input-profile" type="password" placeholder="Nueva Contraseña"/>
+                            </div>
+                            <div className="columna-profile">
+                                <p className="text-profile">Repetir Contraseña</p>
+                                <input onChange={this.updateRepitpassword} className="input-profile" type="password" placeholder="Repetir Contraseña"/>
+                            </div>
+                        </div>
+                        <div className="container-button"> 
+                            <button onClick={this.checkDelete} className="button-profile">
+                                Eliminar perfil
+                            </button>       
+                        </div>
+                    </div>
+                </InfiniteScroll>
+                    
                 </div>
         }
         else if (this.state.windowOpen === 1){
@@ -124,14 +288,14 @@ class User extends Component{
                         {this.state.User.rides.map(ride => (
                             <div className="Ride" key={ride.id}>
                                 <div className="ride-informacion">
-                                    <h3>Fecha del viaje: {ride.Fecha}</h3>
-                                    <h3 >Valor: {ride.Valor} COP</h3>
-                                    <h3>Tu conductor en este viaje fue: {ride.Conductor}</h3>
-                                    <h3>Distancia: {ride.Kilometros}</h3>
+                                    <h3>Fecha del viaje: {ride.fecha_carrera}</h3>
+                                    <h3 >Valor: {ride.valor} COP</h3>
+                                    <h3>Tu conductor en este viaje fue: {ride.nombre + " " + ride.apellido}</h3>
+                                    <h3>Distancia: {ride.nrokm}</h3>
                                 </div>
                                 <div className="calification-container">
                                     <h3 className="ride-calification">Calificacion: </h3>
-                                    {ride.Calificacion === 1?
+                                    {ride.calificacion === 1?
                                         <div>
                                             <img src={Estrella} width="25px"/>
                                             <img src={EstrellaVacia} width="25px" />
@@ -140,7 +304,7 @@ class User extends Component{
                                             <img src={EstrellaVacia} width="25px" />
                                         </div>
                                         :
-                                        ride.Calificacion === 2?
+                                        ride.calificacion === 2?
                                         <div>
                                             <img src={Estrella} width="25px"/>
                                             <img src={Estrella} width="25px"/>
@@ -149,7 +313,7 @@ class User extends Component{
                                             <img src={EstrellaVacia} width="25px" />
                                         </div>
                                         :
-                                        ride.Calificacion === 3?
+                                        ride.calificacion === 3?
                                         <div>
                                             <img src={Estrella} width="25px"/>
                                             <img src={Estrella} width="25px"/>
@@ -158,7 +322,7 @@ class User extends Component{
                                             <img src={EstrellaVacia} width="25px" />
                                         </div>
                                         :
-                                        ride.Calificacion === 4?
+                                        ride.calificacion === 4?
                                         <div>
                                             <img src={Estrella} width="25px"/>
                                             <img src={Estrella} width="25px"/>
@@ -216,6 +380,15 @@ class User extends Component{
                         }} className="button-options">Pedir un viaje</button>
                     </div>
                     {windowCurrent}
+                    <Popup
+                    className="container-modal" 
+                    open={this.state.open}
+                    onClose={this.closeModal}>
+                        <div>
+                            <h3 className="modal-text">Datos invalidos</h3>
+                            <button className="button-modal" onClick={this.closeModal}>Aceptar</button>
+                        </div>
+                    </Popup> 
                 </div>
             </div>
         );

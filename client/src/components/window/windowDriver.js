@@ -12,13 +12,15 @@ class WindowDriver extends Component {
             message: "User is not logged",
             typeUser: "",
             isChanged: 0,
+            Cellphone: ""
         }
         
         fetch('/maps/Driver')
         .then(res => res.json())
         .then(res => this.setState({
           message: res.status,
-          typeUser: res.typeUser}))
+          typeUser: res.typeUser,
+          Cellphone: res.Cellphone}))
         .catch(err => console.log(err))
 
         componentCurrent =
@@ -37,7 +39,7 @@ class WindowDriver extends Component {
             if(this.state.typeUser === "Driver"){
 
               this.setState({isChanged: 1});
-             componentCurrent = <Driver />
+             componentCurrent = <Driver  Cellphone={this.state.Cellphone}/>
             }
             else {
                 

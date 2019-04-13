@@ -12,13 +12,15 @@ class WindowUser extends Component {
             message: "User is not logged",
             typeUser: "",
             isChanged: 0,
+            Cellphone: ""
         }
         
         fetch('/maps/user')
         .then(res => res.json())
         .then(res => this.setState({
           message: res.status,
-          typeUser: res.typeUser}))
+          typeUser: res.typeUser,
+          Cellphone: res.Cellphone}))
         .catch(err => console.log(err))
 
         componentCurrent =
@@ -37,7 +39,7 @@ class WindowUser extends Component {
             if(this.state.typeUser === "User"){
 
               this.setState({isChanged: 1});
-              componentCurrent = <User />
+              componentCurrent = <User Cellphone={this.state.Cellphone}/>
             }
             else {
                 

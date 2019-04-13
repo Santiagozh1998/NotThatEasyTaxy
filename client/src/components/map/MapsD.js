@@ -28,13 +28,24 @@ class MapsD extends Component{
     constructor(props){
         super(props);
 
-        this.state = {
+        this.asyncCall = this.asyncCall.bind(this);
 
+        this.state = {
+            User:{
+                Cellphone: this.props.Cellphone
+            },
+            location: {
+                lat: 0,
+                lng: 0                
+            },
+            zoom: 2
         }
     }
 
     //Metodo que se ejecuta despues de que todo este en el DOM
     componentDidMount () {       
+
+        this.asyncCall();
 
         if (navigator.geolocation){
         navigator.geolocation.getCurrentPosition((Position) => {
@@ -51,6 +62,14 @@ class MapsD extends Component{
         }
         
     }
+
+    async asyncCall() {
+
+        await setInterval(() => {
+             console.log('resolved');
+         }, 5000);
+         
+     }
 
     //Crea el mapa
     initMap() {

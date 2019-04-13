@@ -122,7 +122,7 @@ class Driver extends Component {
 
         if(this.state.isChanged === 1){
 
-            if(this.state.message === "Celular en uso"){
+            if(this.state.message === "Celular en uso" || this.state.message === "Placa en uso"){
                 this.setState({message: "User is not logged"})
                 this.openModal()
             }

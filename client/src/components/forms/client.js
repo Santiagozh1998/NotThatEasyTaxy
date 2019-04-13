@@ -29,6 +29,7 @@ class Client extends Component {
             Repitpassword: "",
             Nrocard: "",
             message: "User is not logged",
+            typeUser: "",
             isChanged: 0,
             alert: 0,
             open: false
@@ -140,7 +141,9 @@ class Client extends Component {
                 body: JSON.stringify(data)
             })
             .then(res => res.json())
-            .then(res => this.setState({message: res.status}))
+            .then(res => this.setState({
+                message: res.status,
+                typeUser: res.typeUser}))
             .catch(err => console.log(err))
             
         }
