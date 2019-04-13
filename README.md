@@ -23,6 +23,5 @@ psql -U postgres -h localhost NotThatEasyTaxy < NTET.sql
 ## Inicializar la app:
 Una vez se esté dentro del server, ejecurtar
 ```
-cd server
 npm run dev
 ```
