@@ -22,13 +22,23 @@ var iconRoute = L.icon({
 
 
 var map;
+var markerorigen;
+var markerdestino;
+var routing;
+var componentCurrent;
 
 class MapsD extends Component{
 
     constructor(props){
         super(props);
 
+        this.updatePosition = this.updatePosition.bind(this);
         this.asyncCall = this.asyncCall.bind(this);
+        this.fetchPosition = this.fetchPosition.bind(this);
+        this.createRoute = this.createRoute.bind(this);
+        this.deleteRoute = this.deleteRoute.bind(this);
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
 
         this.state = {
             User:{
@@ -38,7 +48,47 @@ class MapsD extends Component{
                 lat: 0,
                 lng: 0                
             },
-            zoom: 2
+            zoom: 2,
+            Route: {
+                user: '',
+                cellphoneuser: '',
+                latorigen: 0,
+                lngorigen: 0,
+                latdestino: 0,
+                lngdestino: 0,
+            },
+            valor: 0,
+            Routing: 0,
+            isChange: 0,
+            open: false
+        }
+        
+    }
+
+    componentDidUpdate() {
+
+        console.log(this.state.Route)
+        if(this.state.isChange === 1){
+
+            this.setState({
+                isChange: 0,
+                Routing: 1
+            })
+
+            this.openModal();
+
+            markerorigen = L.marker([this.state.Route.latorigen, this.state.Route.lngorigen], {icon: iconRoute}).addTo(map)
+            markerdestino = L.marker([this.state.Route.latdestino, this.state.Route.lngdestino], {icon: iconRoute}).addTo(map)
+
+            componentCurrent = 
+                <div>
+                    <h3 className="modal-text">Carrera</h3>
+                    <h3 className="modal-text">Usuario: {this.state.Route.user}</h3>
+                    <h3 className="modal-text">Celular: {this.state.Route.cellphoneuser}</h3>
+                    <button onClick={this.closeModal} className="button-modal">Cerrar</button>
+                </div>
+
+            this.createRoute();
         }
     }
 
@@ -58,16 +108,110 @@ class MapsD extends Component{
             zoom: 16
             })
             this.initMap()
-        });
+
+            console.log(Position.coords.latitude, Position.coords.longitude)
+            });
+
+            
+            
         }
+
         
+        
+    }
+
+    deleteRoute() {
+        map.removeLayer(markerorigen);
+        map.removeLayer(markerdestino);
+        map.removeControl(routing)
+
+        this.setState({
+            Route: {
+                user: '',
+                cellphoneuser: '',
+                latorigen: 0,
+                lngorigen: 0,
+                latdestino: 0,
+                lngdestino: 0,
+            },
+            valor: 0
+        })
+
+    }
+
+    createRoute() {
+
+        routing = L.Routing.control({
+            waypoints: [
+              L.latLng(this.state.Route.latorigen, this.state.Route.lngorigen),
+              L.latLng(this.state.Route.latdestino, this.state.Route.lngdestino)
+            ],
+            routeWhileDragging: false,
+            showAlternatives: true,
+            draggableWaypoints: false,
+            addWaypoints: false
+          }).addTo(map)
+        
+    }
+
+    updatePosition() {
+
+        if (navigator.geolocation){
+            navigator.geolocation.getCurrentPosition((Position) => {
+    
+                this.setState({
+                    location: {
+                        lat: Position.coords.latitude,
+                        lng: Position.coords.longitude
+                    },
+                    zoom: 16
+                })
+
+                this.fetchPosition();
+            });
+                
+        }
+    }
+
+    fetchPosition() {
+        var data = {
+            celularconductor: this.state.User.Cellphone,
+            lat: this.state.location.lat,
+            lng: this.state.location.lng
+        }
+
+        fetch('/driver/updatePosition', {
+            method: 'POST',
+            headers: {
+                Accept: "application/json, text/plain, */*",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        })
+        .then(res => res.json())
+        .then(res => console.log(res.status))
+        .catch(err => console.log(err))
     }
 
     async asyncCall() {
 
         await setInterval(() => {
-             console.log('resolved');
-         }, 5000);
+
+            fetch('/driver/getRoutes', {
+                method: 'POST',
+                headers: {
+                    Accept: "application/json, text/plain, */*",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    Cellphone: this.state.User.Cellphone
+                })
+            })
+            .then(res => res.json())
+            .then(res => this.setState({Route: res.Route, isChange: res.isChange, valor: res.valor}))
+            .catch(err => console.log(err))
+
+        }, 5000);
          
      }
 
@@ -77,6 +221,32 @@ class MapsD extends Component{
         map = L.map('map', {
         center: [this.state.location.lat, this.state.location.lng],
         zoom: this.state.zoom
+        }).on('contextmenu', (e) => {
+
+            if (this.state.Routing === 1){
+
+                this.setState({
+                    Routing: 0})
+
+                componentCurrent = 
+                        <div>
+                            <h3 className="modal-text">Completada la carrera</h3>
+                            <h3 className="modal-text">Tu ganancia fue: {this.state.valor}</h3>
+                            <button onClick={() => {
+                                this.deleteRoute();
+                                this.closeModal();
+                                this.updatePosition();                           
+    
+                            }} className="button-modal">Cerrar</button>
+                        </div>
+
+                this.openModal();
+
+            }
+            else {
+                this.updatePosition();
+            }
+            
         });
 
         L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}{r}.png', {
@@ -88,12 +258,35 @@ class MapsD extends Component{
         .on("contextmenu", (e) => {
         })
         .bindPopup("Tu posicion actual").openPopup();
+
+        this.fetchPosition();
             
+    }
+
+    openModal() {
+        this.setState({open: true})
+    }
+
+    closeModal() {
+        this.setState({open:false})
     }
 
     render() {
 
-        return(<div id="map" className="map"></div>);
+        return(
+            <div>
+                <div id="map" className="map"></div>
+                <Popup
+                className="container-modal"
+                open={this.state.open}
+                closeOnDocumentClick={false}>
+                    <div>
+                        {componentCurrent}
+                    </div>
+                </Popup>
+            </div>
+            
+        );
     }
 
 

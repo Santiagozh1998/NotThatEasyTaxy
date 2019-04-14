@@ -49,6 +49,8 @@ class Maps extends Component {
         this.asyncCall = this.asyncCall.bind(this);
         this.openModalDelete = this.openModalDelete.bind(this);
         this.closeModalDelete = this.closeModalDelete.bind(this);
+        this.saveRoute =this.saveRoute.bind(this);
+        this.setDistanceKm = this.setDistanceKm.bind(this);
 
         this.state = {
             modal: {
@@ -66,7 +68,8 @@ class Maps extends Component {
             waypoints: {
                 activo: 0,
                 origen: {},
-                destino: {}
+                destino: {},
+                km: 0
             },
             User:{
                 Cellphone: this.props.Cellphone
@@ -288,31 +291,51 @@ class Maps extends Component {
 
         var router = new L.Routing.OSRMv1({});
 
+        var data;
         var routewaypoints = [
         L.Routing.waypoint(L.latLng(origen.lat, origen.lng)),
         L.Routing.waypoint(L.latLng(destino.lat, destino.lng))]
         
-        router.route(routewaypoints, function(error, routes) {
-        routingline = L.Routing.line(routes[0]).addTo(map);
-        console.log('Distance: ' + (routes[0].summary.totalDistance / 1000) + ' Km');
-        console.log('Time: ' + (routes[0].summary.totalTime / 60) + ' Min');}, 
+        router.route(routewaypoints, (error, routes) => {
+            
+            routingline = L.Routing.line(routes[0]).addTo(map);
+            console.log('Distance: ' + (routes[0].summary.totalDistance / 1000) + ' Km');
+            console.log('Time: ' + (routes[0].summary.totalTime / 60) + ' Min');
+            data = routingline._route.summary.totalDistance / 1000;
+            this.setDistanceKm(data);
+            
+        }, 
         null, {});
+        
+    }
+
+
+    setDistanceKm(km) {
+
+        this.setState({
+            waypoints: {
+                activo: this.state.waypoints.activo,
+                origen: this.state.waypoints.origen,
+                destino: this.state.waypoints.destino,
+                km: km
+            }
+        })
     }
 
     //Metodo que elimina la ruta actual
   deleteRoute() {
     
     map.removeLayer(markerorigen);
-        map.removeLayer(markerdestino);
+    map.removeLayer(markerdestino);
 
-        map.removeLayer(routingline);
-      
-        this.setState({
-            waypoints: {
-            activo: 0,
-            origen: {},
-            destino: {}
-            }
+    map.removeLayer(routingline);
+
+    this.setState({
+        waypoints: {
+        activo: 0,
+        origen: {},
+        destino: {}
+        }
     });
     
   }
@@ -552,6 +575,33 @@ class Maps extends Component {
         
     }
 
+    saveRoute() {
+
+        var f = new Date();
+
+        var data = {
+            celularcliente : this.state.User.Cellphone,
+            latorigen: this.state.waypoints.origen.lat,
+            lngorigen: this.state.waypoints.origen.lng,
+            latdestino: this.state.waypoints.destino.lat,
+            lngdestino: this.state.waypoints.destino.lng,
+            nrokm: this.state.waypoints.km,
+            fecha_carrera: f.getDate() + "/" + (f.getMonth() + 1) + "/" + f.getFullYear() + " " + f.getHours() + ":" + f.getMinutes()
+        }
+
+        fetch('/user/createRoute', {
+            method: 'POST',
+            headers: {
+                Accept: "application/json, text/plain, */*",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        })
+        .then(res => res.json())
+        .then(res => console.log(res.status))
+        .catch(err => console.log(err))
+        
+    }
 
     openModalDelete() {
         this.setState({
@@ -718,8 +768,8 @@ class Maps extends Component {
                         <div>
                             <h3 className="modal-text">Deseas hacer esta ruta?</h3>
                             <button className="button-modal"
-                                onClick={ () => {                                    
-                                    this.deleteRoute();
+                                onClick={ () => {          
+                                    this.saveRoute();   
                                     this.closeModal();
                             }}>Guardar ruta</button>
                             <button className="button-modal"

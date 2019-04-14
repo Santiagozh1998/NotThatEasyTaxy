@@ -234,6 +234,14 @@ app.post('/user/informacion', db.obtenerCliente)
 
 app.post('/driver/informacion', db.obtenerConductor)
 
+app.post('/user/createRoute', db.insertarCarrera)
+
+app.post('/driver/updatePosition', db.updatePositionConductor)
+
+app.post('/driver/getRoutes', db.obtenerRuta)
+
+
+
 //STARTING SERVER
 app.listen(app.get('port'), () => {
     console.log('Server on port ' + app.get('port'));

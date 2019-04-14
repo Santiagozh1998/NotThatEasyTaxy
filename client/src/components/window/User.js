@@ -197,6 +197,7 @@ class User extends Component{
                     height={540}
                 >
                     <h3 className="title-profile">Información de la cuenta</h3>
+                    <h3 className="title-profile">Aun no esta disponible la opcion de cambiar la informacion</h3>
                         <div className="fila-profile">
                             <div className="columna-profile">
                                 <p className="text-profile">Nombre</p>
@@ -295,7 +296,16 @@ class User extends Component{
                                 </div>
                                 <div className="calification-container">
                                     <h3 className="ride-calification">Calificacion: </h3>
-                                    {ride.calificacion === 1?
+                                    {ride.calificacion === 0?
+                                        <div>
+                                            <img src={EstrellaVacia} width="25px" />
+                                            <img src={EstrellaVacia} width="25px" />
+                                            <img src={EstrellaVacia} width="25px" />
+                                            <img src={EstrellaVacia} width="25px" />
+                                            <img src={EstrellaVacia} width="25px" />
+                                        </div>
+                                        :
+                                        ride.calificacion === 1?
                                         <div>
                                             <img src={Estrella} width="25px"/>
                                             <img src={EstrellaVacia} width="25px" />

@@ -103,7 +103,7 @@ const obtenerCliente = (req, res) => {
             throw error
         }
 
-        pool.query('SELECT fecha_carrera, valor, nombre, apellido, nrokm, calificacion FROM conductor INNER JOIN carrera ON celular = celularconductor AND celularcliente = $1',
+        pool.query('SELECT fecha_carrera, valor, nombre, apellido, nrokm, calificacion FROM conductor INNER JOIN carrera ON celular = celularconductor AND celularcliente = $1 AND estado = true',
             [Cellphone], (error, rides) => {
                 if(error){
                     throw error
@@ -418,7 +418,7 @@ const obtenerConductor = (req, res) => {
             throw error
         }
 
-        pool.query('SELECT fecha_carrera, valor, nombre, apellido, nrokm, calificacion FROM cliente INNER JOIN carrera ON celular = celularcliente AND celularconductor = $1',
+        pool.query('SELECT fecha_carrera, valor, nombre, apellido, nrokm, calificacion FROM cliente INNER JOIN carrera ON celular = celularcliente AND celularconductor = $1 AND estado = true',
             [Cellphone], (error, rides) => {
                 if(error){
                     throw error
@@ -462,6 +462,165 @@ const obtenerConductor = (req, res) => {
     });
 }
 
+
+const updatePositionConductor = (req, res) => {
+
+    const{celularconductor, lat, lng} = req.body;
+
+    pool.query('SELECT * from posicionconductor WHERE celular = $1', [celularconductor], (error, results) => {
+        if (error) {
+			throw error
+        }
+        
+        if(results.rows.length === 0){
+
+            pool.query('INSERT INTO posicionconductor VALUES ($1, $2, $3, false)', [celularconductor, lat, lng], (error, results) => {
+                if (error) {
+                    throw error
+                }
+
+                res.json({
+                    status: "Position is updated"
+                })
+
+            })
+
+        }
+        else {
+
+            pool.query('UPDATE posicionconductor SET lat = $1  WHERE celular =  $2', [lat, celularconductor], (error, results) => {
+                if (error) {
+                    throw error
+                }
+            })
+        
+            pool.query('UPDATE posicionconductor SET lng = $1  WHERE celular =  $2', [lng, celularconductor], (error, results) => {
+                if (error) {
+                    throw error
+                }
+            })
+
+            pool.query('UPDATE posicionconductor SET estado = false  WHERE celular =  $1', [celularconductor], (error, results) => {
+                if (error) {
+                    throw error
+                }
+            })
+
+
+            res.json({
+                status: "Position is updated"
+            })
+            
+        }
+
+    })
+
+    
+}
+
+
+const insertarCarrera = (req, res) => {
+
+    const {celularcliente, latorigen, lngorigen, latdestino, lngdestino, nrokm, fecha_carrera} = req.body;
+
+    var lat = latorigen + '';
+    var lng = lngorigen + '';
+
+    var lat = lat.substring(0,3);
+    var lng = lng.substring(0,3);
+
+
+    console.log(lat, lng)
+    pool.query('SELECT celular FROM posicionconductor WHERE CAST (lat as varchar) like $1 AND CAST (lng as varchar) like $2 AND estado = FALSE', [lat+'%', lng+'%'], (error, results) => {
+        if (error) {
+            throw error
+        }
+
+        if(results.rows.length === 0){
+
+            res.json({
+                status: "No hay conductores cerca"
+            })
+        }
+        else {
+
+            var celularconductor = results.rows[0].celular;
+
+            pool.query('UPDATE posicionconductor SET estado = true  WHERE celular =  $1', [celularconductor], (error, results) => {
+                if (error) {
+                    throw error
+                }
+
+            })
+
+            pool.query('INSERT INTO carrera VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)',[celularconductor, celularcliente, latorigen, lngorigen, latdestino, lngdestino, nrokm, 0, 0, false, fecha_carrera], (error, results) => {
+                if (error) {
+                    throw error
+                }
+            })
+
+            pool.query('SELECT * FROM conductor WHERE celular = $1', [celularconductor], (error, results) => {
+                if (error) {
+                    throw error
+                }
+
+                res.json({
+                    status: results.rows[0].nombre + " " + results.rows[0].apellido
+                })
+            })
+
+            
+            
+
+        }
+        
+    })
+
+    
+}
+
+const obtenerRuta = (req, res) => {
+
+    const {Cellphone} = req.body;
+
+    pool.query('SELECT nombre, apellido, celular, latorigen, lngorigen, latdestino, lngdestino, valor FROM cliente INNER JOIN carrera ON celularcliente = celular AND celularconductor = $1 AND  estado = FALSE', [Cellphone], (error, results) => {
+        if (error) {
+            throw error
+        }
+
+        if(results.rows.length === 0){
+
+            res.json({
+                status: "No hay rutas para mostrar",
+                isChange: 0
+            })
+        }
+        else {
+
+            pool.query('UPDATE carrera SET estado = true WHERE celularconductor = $1', [Cellphone], (error, r) => {
+                if (error) {
+                    throw error
+                }
+
+            })
+
+            res.json({
+                Route: {
+                    user: results.rows[0].nombre + " " + results.rows[0].apellido,
+                    cellphoneuser: results.rows[0].celular,
+                    latorigen: results.rows[0].latorigen,
+                    lngorigen: results.rows[0].lngorigen,
+                    latdestino: results.rows[0].latdestino,
+                    lngdestino: results.rows[0].lngdestino,
+                },
+                isChange: 1,
+                valor: results.rows[0].valor
+            })
+        }
+
+    })
+}
+
 module.exports = {
     insertarCliente,
     existeCliente,
@@ -475,5 +634,8 @@ module.exports = {
     eliminarCliente,
     eliminarConductor,
     obtenerCliente,
-    obtenerConductor
+    obtenerConductor,
+    updatePositionConductor,
+    insertarCarrera,
+    obtenerRuta
 }
