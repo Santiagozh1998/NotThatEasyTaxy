@@ -10,6 +10,7 @@ class WindowUser extends Component {
 
         this.state ={
             message: "User is not logged",
+<<<<<<< HEAD
             typeUser: "",
             isChanged: 0,
             Cellphone: ""
@@ -21,6 +22,14 @@ class WindowUser extends Component {
           message: res.status,
           typeUser: res.typeUser,
           Cellphone: res.Cellphone}))
+=======
+            isChanged: 0,
+        }
+        
+        fetch('/maps')
+        .then(res => res.json())
+        .then(res => this.setState({message: res.status}))
+>>>>>>> ca998e87ca3af7d5a8438aef055cff21708f3533
         .catch(err => console.log(err))
 
         componentCurrent =
@@ -36,6 +45,7 @@ class WindowUser extends Component {
       {
           if(this.state.message === "User is logged")
           {
+<<<<<<< HEAD
             if(this.state.typeUser === "User"){
 
               this.setState({isChanged: 1});
@@ -45,6 +55,10 @@ class WindowUser extends Component {
                 
                 window.location = "/Main/" + this.state.typeUser;
             } 
+=======
+            this.setState({isChanged: 1});
+             componentCurrent = <User />
+>>>>>>> ca998e87ca3af7d5a8438aef055cff21708f3533
           }
           
           if (this.state.message === "User is not logged") {

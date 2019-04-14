@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+<<<<<<< HEAD
 import Popup from 'reactjs-popup';
+=======
+>>>>>>> ca998e87ca3af7d5a8438aef055cff21708f3533
 import '../styles.css';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Estrella from '../images/starYellow.png';
@@ -10,6 +13,7 @@ class User extends Component{
     constructor(props) {
         super(props);
 
+<<<<<<< HEAD
         this.updateCellphone = this.updateCellphone.bind(this);
         this.updateName = this.updateName.bind(this);
         this.updateLastname = this.updateLastname.bind(this);
@@ -28,6 +32,14 @@ class User extends Component{
             Cellphone: this.props.Cellphone,
             User: {
                 profile:{
+=======
+
+        this.state = {
+            windowOpen : 0,
+            User: {
+                profile:{
+                    celular: '',
+>>>>>>> ca998e87ca3af7d5a8438aef055cff21708f3533
                     nombre: '',
                     apellido: '',
                     direccion: '',
@@ -36,6 +48,7 @@ class User extends Component{
                 },
                 rides: [],
                 start: 1
+<<<<<<< HEAD
             },
             inputCellphone: '',
             inputName: '',
@@ -56,6 +69,12 @@ class User extends Component{
             },
             body: JSON.stringify({Cellphone: this.state.Cellphone})
         })
+=======
+            }
+        }
+
+        fetch('/user/informacion')
+>>>>>>> ca998e87ca3af7d5a8438aef055cff21708f3533
         .then(res => res.json())
         .then(res => this.setState({
             User: {
@@ -69,6 +88,7 @@ class User extends Component{
 
     }
 
+<<<<<<< HEAD
     componentDidUpdate() {
 
         if(this.state.message === "Incorect password"){
@@ -83,10 +103,13 @@ class User extends Component{
         }
     }
 
+=======
+>>>>>>> ca998e87ca3af7d5a8438aef055cff21708f3533
     fetchRides() {
 
     }
 
+<<<<<<< HEAD
     updateCellphone(event) {
         this.setState({
             inputCellphone: event.target.value
@@ -183,6 +206,8 @@ class User extends Component{
             open: false
         })
     }
+=======
+>>>>>>> ca998e87ca3af7d5a8438aef055cff21708f3533
 
     render() {
 
@@ -191,11 +216,14 @@ class User extends Component{
         if(this.state.windowOpen === 0) {
             windowCurrent =
                 <div className="Container-window">
+<<<<<<< HEAD
                 <InfiniteScroll
                     className="Scroll"
                     hasMore={false}
                     height={540}
                 >
+=======
+>>>>>>> ca998e87ca3af7d5a8438aef055cff21708f3533
                     <h3 className="title-profile">Información de la cuenta</h3>
                         <div className="fila-profile">
                             <div className="columna-profile">
@@ -210,7 +238,11 @@ class User extends Component{
                         <div className="fila-profile">
                             <div className="columna-profile">
                                 <p className="text-profile">Celular</p>
+<<<<<<< HEAD
                                 <input className="input-profile" id="cellphone" type="text" placeholder={this.state.Cellphone}/>
+=======
+                                <input className="input-profile" id="cellphone" type="text" placeholder={this.state.User.profile.celular}/>
+>>>>>>> ca998e87ca3af7d5a8438aef055cff21708f3533
                             </div>
                             <div className="columna-profile">
                                 <p className="text-profile">Vieja Contraseña</p>
@@ -242,6 +274,7 @@ class User extends Component{
                             Actualizar
                         </button>       
                     </div>
+<<<<<<< HEAD
                     <div>
                         <h3 className="title-profile">Eliminar perfil</h3>
                         <div className="fila-profile">
@@ -262,6 +295,8 @@ class User extends Component{
                     </div>
                 </InfiniteScroll>
                     
+=======
+>>>>>>> ca998e87ca3af7d5a8438aef055cff21708f3533
                 </div>
         }
         else if (this.state.windowOpen === 1){
@@ -288,6 +323,7 @@ class User extends Component{
                         {this.state.User.rides.map(ride => (
                             <div className="Ride" key={ride.id}>
                                 <div className="ride-informacion">
+<<<<<<< HEAD
                                     <h3>Fecha del viaje: {ride.fecha_carrera}</h3>
                                     <h3 >Valor: {ride.valor} COP</h3>
                                     <h3>Tu conductor en este viaje fue: {ride.nombre + " " + ride.apellido}</h3>
@@ -296,6 +332,16 @@ class User extends Component{
                                 <div className="calification-container">
                                     <h3 className="ride-calification">Calificacion: </h3>
                                     {ride.calificacion === 1?
+=======
+                                    <h3>Fecha del viaje: {ride.Fecha}</h3>
+                                    <h3 >Valor: {ride.Valor} COP</h3>
+                                    <h3>Tu conductor en este viaje fue: {ride.Conductor}</h3>
+                                    <h3>Distancia: {ride.Kilometros}</h3>
+                                </div>
+                                <div className="calification-container">
+                                    <h3 className="ride-calification">Calificacion: </h3>
+                                    {ride.Calificacion === 1?
+>>>>>>> ca998e87ca3af7d5a8438aef055cff21708f3533
                                         <div>
                                             <img src={Estrella} width="25px"/>
                                             <img src={EstrellaVacia} width="25px" />
@@ -304,7 +350,11 @@ class User extends Component{
                                             <img src={EstrellaVacia} width="25px" />
                                         </div>
                                         :
+<<<<<<< HEAD
                                         ride.calificacion === 2?
+=======
+                                        ride.Calificacion === 2?
+>>>>>>> ca998e87ca3af7d5a8438aef055cff21708f3533
                                         <div>
                                             <img src={Estrella} width="25px"/>
                                             <img src={Estrella} width="25px"/>
@@ -313,7 +363,11 @@ class User extends Component{
                                             <img src={EstrellaVacia} width="25px" />
                                         </div>
                                         :
+<<<<<<< HEAD
                                         ride.calificacion === 3?
+=======
+                                        ride.Calificacion === 3?
+>>>>>>> ca998e87ca3af7d5a8438aef055cff21708f3533
                                         <div>
                                             <img src={Estrella} width="25px"/>
                                             <img src={Estrella} width="25px"/>
@@ -322,7 +376,11 @@ class User extends Component{
                                             <img src={EstrellaVacia} width="25px" />
                                         </div>
                                         :
+<<<<<<< HEAD
                                         ride.calificacion === 4?
+=======
+                                        ride.Calificacion === 4?
+>>>>>>> ca998e87ca3af7d5a8438aef055cff21708f3533
                                         <div>
                                             <img src={Estrella} width="25px"/>
                                             <img src={Estrella} width="25px"/>
@@ -351,7 +409,11 @@ class User extends Component{
         }
         else if (this.state.windowOpen === 2){
 
+<<<<<<< HEAD
             window.location = "/Maps/User"
+=======
+            window.location = "/Maps"
+>>>>>>> ca998e87ca3af7d5a8438aef055cff21708f3533
         }
 
         
@@ -380,6 +442,7 @@ class User extends Component{
                         }} className="button-options">Pedir un viaje</button>
                     </div>
                     {windowCurrent}
+<<<<<<< HEAD
                     <Popup
                     className="container-modal" 
                     open={this.state.open}
@@ -389,6 +452,8 @@ class User extends Component{
                             <button className="button-modal" onClick={this.closeModal}>Aceptar</button>
                         </div>
                     </Popup> 
+=======
+>>>>>>> ca998e87ca3af7d5a8438aef055cff21708f3533
                 </div>
             </div>
         );

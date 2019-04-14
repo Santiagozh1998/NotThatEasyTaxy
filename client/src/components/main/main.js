@@ -54,7 +54,11 @@ class Main extends Component{
                                     ¡Pidelo desde cualquier lugar!
                             </h1>
                             <div>
+<<<<<<< HEAD
                                 <Link className="login-text" to="/Form/Driver">
+=======
+                                <Link className="login-text" to="/FormDriver">
+>>>>>>> ca998e87ca3af7d5a8438aef055cff21708f3533
                                     <button className="button-a">
                                             Registrarse como socio
                                     </button>
@@ -64,12 +68,20 @@ class Main extends Component{
                                             Registrarse como usuario
                                     </button>
                                 </Link>
+<<<<<<< HEAD
                                 <Link className="login-text" to="/Login/Driver">
+=======
+                                <Link className="login-text" to="/LoginDriver">
+>>>>>>> ca998e87ca3af7d5a8438aef055cff21708f3533
                                     <button className="button-b" >
                                             Inicia sesión como socio
                                     </button>
                                 </Link>
+<<<<<<< HEAD
                                 <Link className="login-text" to="/Login/User">
+=======
+                                <Link className="login-text" to="/LoginUser">
+>>>>>>> ca998e87ca3af7d5a8438aef055cff21708f3533
                                     <button className="button-b" >
                                             Inicia sesión como usuario
                                     </button>

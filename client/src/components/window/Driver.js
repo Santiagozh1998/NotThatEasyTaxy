@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
+<<<<<<< HEAD
 import InfiniteScroll from 'react-infinite-scroll-component';
 import '../styles.css';
 import Estrella from '../images/starYellow.png';
 import EstrellaVacia from '../images/star.png';
+=======
+>>>>>>> ca998e87ca3af7d5a8438aef055cff21708f3533
 
 class Driver extends Component{
 
     constructor(props){
         super(props);
 
+<<<<<<< HEAD
         this.fetchRides = this.fetchRides.bind(this);
         this.updatePassword = this.updatePassword.bind(this);
         this.updateRepitpassword = this.updateRepitpassword.bind(this);
@@ -40,12 +44,36 @@ class Driver extends Component{
             profile: res.profile,
             rides: res.rides,
             start: 1
+=======
+        this.state = {
+            windowOpen: 0,
+            User: {
+                profile:{
+                    celular: '',
+                    nombre: '',
+                    apellido: '',
+                    nacimiento: '',
+                    direccion: '',
+                    password: '',
+                    tipodocumento: '',
+                    nrodocumento: 0
+                }
+            }
+        }
+
+        fetch('/driver/informacion')
+        .then(res => res.json())
+        .then(res => this.setState({
+            User: {
+            profile: res.profile
+>>>>>>> ca998e87ca3af7d5a8438aef055cff21708f3533
             }
         }))
         .catch(err => console.log(err));
 
     }
 
+<<<<<<< HEAD
     componentDidUpdate() {
 
         if (this.state.message === "User is not logged"){
@@ -105,6 +133,8 @@ class Driver extends Component{
 
         }
     }
+=======
+>>>>>>> ca998e87ca3af7d5a8438aef055cff21708f3533
         
     render() {
 
@@ -113,11 +143,14 @@ class Driver extends Component{
         if(this.state.windowOpen === 0){
             windowCurrent =
                 <div className="Container-window">
+<<<<<<< HEAD
                 <InfiniteScroll
                     className="Scroll"
                     hasMore={false}
                     height={540}
                 >
+=======
+>>>>>>> ca998e87ca3af7d5a8438aef055cff21708f3533
                     <h3 className="title-profile">Información de la cuenta</h3>
                         <div className="fila-profile">
                             <div className="columna-profile">
@@ -132,7 +165,11 @@ class Driver extends Component{
                         <div className="fila-profile">
                             <div className="columna-profile">
                                 <p className="text-profile">Celular</p>
+<<<<<<< HEAD
                                 <input className="input-profile" id="cellphone" type="text" placeholder={this.state.Cellphone}/>
+=======
+                                <input className="input-profile" id="cellphone" type="text" placeholder={this.state.User.profile.celular}/>
+>>>>>>> ca998e87ca3af7d5a8438aef055cff21708f3533
                             </div>
                             <div className="columna-profile">
                                 <p className="text-profile">Vieja Contraseña</p>
@@ -174,6 +211,7 @@ class Driver extends Component{
                             Actualizar
                         </button>       
                     </div>
+<<<<<<< HEAD
                     <div>
                         <h3 className="title-profile">Eliminar perfil</h3>
                         <div className="fila-profile">
@@ -193,10 +231,13 @@ class Driver extends Component{
                         </div>
                     </div>
                 </InfiniteScroll>
+=======
+>>>>>>> ca998e87ca3af7d5a8438aef055cff21708f3533
                 </div>
         }
         else if(this.state.windowOpen === 1){
             
+<<<<<<< HEAD
             if(this.state.User.rides.length === 0){
                 windowCurrent =
                     <div className="container-Rides">
@@ -278,13 +319,19 @@ class Driver extends Component{
                     </div>
             }
             
+=======
+>>>>>>> ca998e87ca3af7d5a8438aef055cff21708f3533
         }
         else if(this.state.windowOpen === 2){
             
         }
         else if(this.state.windowOpen === 3){
             
+<<<<<<< HEAD
             window.location = "/Maps/Driver"
+=======
+            window.location = "/Maps"
+>>>>>>> ca998e87ca3af7d5a8438aef055cff21708f3533
         }
 
 
