@@ -18,7 +18,7 @@ Crear una base de datos en postgres con el nombre NotThatEasyTaxy
 ## Importar la DB desde el server del proyecto
 Una vez se esté dentro de la carpeta server, ejecutar
 ```
-psql -U postgres -h localhost NotThatEasyTaxy < NTET.sql
+psql -U postgres -h localhost NotThatEasyTaxy < database.sql
 ```
 ## Inicializar la app:
 Una vez se esté dentro del server, ejecurtar
