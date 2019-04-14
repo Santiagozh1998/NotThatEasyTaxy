@@ -287,7 +287,7 @@ class User extends Component{
                         height={480}
                     >
                         {this.state.User.rides.map(ride => (
-                            <div className="Ride" key={ride.id}>
+                            <div className="Ride">
                                 <div className="ride-informacion">
                                     <h3>Fecha del viaje: {ride.fecha_carrera}</h3>
                                     <h3 >Valor: {ride.valor} COP</h3>

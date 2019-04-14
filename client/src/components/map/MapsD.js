@@ -58,6 +58,7 @@ class MapsD extends Component{
                 lngdestino: 0,
             },
             valor: 0,
+            valorRoute: 0,
             Routing: 0,
             isChange: 0,
             open: false
@@ -70,6 +71,7 @@ class MapsD extends Component{
         console.log(this.state.Route)
         if(this.state.isChange === 1){
 
+            this.setState({valorRoute: this.state.valor})
             this.setState({
                 isChange: 0,
                 Routing: 1
@@ -231,7 +233,7 @@ class MapsD extends Component{
                 componentCurrent = 
                         <div>
                             <h3 className="modal-text">Completada la carrera</h3>
-                            <h3 className="modal-text">Tu ganancia fue: {this.state.valor}</h3>
+                            <h3 className="modal-text">Tu ganancia fue: {this.state.valorRoute}</h3>
                             <button onClick={() => {
                                 this.deleteRoute();
                                 this.closeModal();

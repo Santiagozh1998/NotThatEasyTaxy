@@ -186,7 +186,6 @@ const eliminarFavorito = (req, res) => {
 
     const {Cellphone, lat, lng} = req.body;
     
-    console.log(Cellphone, lat, lng)
 	pool.query('DELETE FROM favoritos WHERE celular = $1 AND lat = $2 AND lng = $3', [Cellphone, lat, lng],(error, results) => { 
         if (error) {
             throw error
@@ -276,23 +275,7 @@ const existeFavoritos = (req, res) => {
 
     const {Cellphone, lat, lng} = req.body;
 
-    console.log(Cellphone, lat, lng)
-
-
-	pool.query('SELECT * FROM favoritos WHERE celular = $1 AND lat = $2 AND lng = $3', [Cellphone, lat, lng], (error, results) => {
-			if (error) {
-			throw error
-            }
-            
-            if(results.rows.length === 0){
-
-                agregarFavoritos(req)
-            }
-            else {
-                console.log("Ya guardaste un favorito aca");
-            }
-
-	})
+	agregarFavoritos(req)
 }
 
 
@@ -529,8 +512,6 @@ const insertarCarrera = (req, res) => {
     var lat = lat.substring(0,3);
     var lng = lng.substring(0,3);
 
-
-    console.log(lat, lng)
     pool.query('SELECT celular FROM posicionconductor WHERE CAST (lat as varchar) like $1 AND CAST (lng as varchar) like $2 AND estado = FALSE', [lat+'%', lng+'%'], (error, results) => {
         if (error) {
             throw error
@@ -539,7 +520,13 @@ const insertarCarrera = (req, res) => {
         if(results.rows.length === 0){
 
             res.json({
-                status: "No hay conductores cerca"
+                status: 'No hay conductores disponibles',
+                    Route: {
+                        user: "",
+                        cellphoneuser: ""
+                    },
+                    valor: 0,
+                    isChanged: 1
             })
         }
         else {
@@ -559,13 +546,23 @@ const insertarCarrera = (req, res) => {
                 }
             })
 
-            pool.query('SELECT * FROM conductor WHERE celular = $1', [celularconductor], (error, results) => {
+            /*
+            nombre, apellido, celular
+            */
+            pool.query('SELECT * FROM conductor INNER JOIN carrera ON celularcliente = celular AND celularconductor = $1', 
+                [celularconductor], (error, conductor) => {
                 if (error) {
                     throw error
                 }
 
                 res.json({
-                    status: results.rows[0].nombre + " " + results.rows[0].apellido
+                    status: 'Se creo la carrera exitosamente',
+                    Route: {
+                        user: conductor.rows[0].nombre + " " + conductor.rows[0].apellido,
+                        cellphoneuser: conductor.rows[0].celular
+                    },
+                    valor: nrokm*1000,
+                    isChanged: 1
                 })
             })
 

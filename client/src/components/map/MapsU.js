@@ -25,7 +25,7 @@ var iconRoute = L.icon({
     iconSize: [90,45],   
 });
 
-
+var componentRoute;
 var map;
 var routingline;
 var markerorigen;
@@ -46,11 +46,12 @@ class Maps extends Component {
         this.updateInput = this.updateInput.bind(this);
         this.createRoute = this.createRoute.bind(this);
         this.deleteRoute = this.deleteRoute.bind(this);
-        this.asyncCall = this.asyncCall.bind(this);
         this.openModalDelete = this.openModalDelete.bind(this);
         this.closeModalDelete = this.closeModalDelete.bind(this);
         this.saveRoute =this.saveRoute.bind(this);
         this.setDistanceKm = this.setDistanceKm.bind(this);
+        this.openModalRoute = this.openModalRoute.bind(this);
+        this.closeModalRoute = this.closeModalRoute.bind(this);
 
         this.state = {
             modal: {
@@ -73,7 +74,12 @@ class Maps extends Component {
             },
             User:{
                 Cellphone: this.props.Cellphone
-            }
+            },
+            driver: {},
+            valor: 0,
+            openRoute: false,
+            isChanged: 0,
+            Routing: 0
         }
 
         fetch('/maps/user/getfavorite',{
@@ -91,6 +97,36 @@ class Maps extends Component {
         
 
     
+    }
+
+    componentDidUpdate() {
+
+        if(this.state.isChanged === 1){
+            this.setState({isChanged: 0});
+
+            if(this.state.driver.user !== ""){
+                componentRoute = 
+                <div>
+                    <h3 className="modal-text">Carrera</h3>
+                    <h3 className="modal-text">Conductor: {this.state.driver.user}</h3>
+                    <h3 className="modal-text">Celular: {this.state.driver.cellphoneuser}</h3>
+                    <button onClick={this.closeModalRoute} className="button-modal">Cerrar</button>
+                </div>
+
+            }
+            else {
+                componentRoute = 
+                <div>
+                    <h3 className="modal-text">No hay conductores disponibles, intenta mas tarde</h3>
+                    <button onClick={this.closeModalRoute} className="button-modal">Cerrar</button>
+                </div>
+
+                this.deleteRoute();
+                this.setState({Routing: 0})
+            }
+            
+            this.openModalRoute()
+        }
     }
 
     //Metodo que se ejecuta despues de que todo este en el DOM
@@ -128,7 +164,7 @@ class Maps extends Component {
         //Posicion actual
         L.marker([this.state.location.lat, this.state.location.lng], {icon: myIcon}).addTo(map)
             .on("click", (e) => {
-                
+
                 coordstemp = e;
                 var temporal = [coordstemp.latlng.lat, coordstemp.latlng.lng];
 
@@ -197,6 +233,8 @@ class Maps extends Component {
         
                     }
                 }
+                
+                
             })
             .on("contextmenu", (e) => {
             })
@@ -207,8 +245,28 @@ class Maps extends Component {
         //Agregando marcadores o indicando la ruta
         map.on('contextmenu', (e) => {
             
-            this.handleRightClick(e);
+
+            if(this.state.Routing === 0){
+
+                this.handleRightClick(e);
+
+            }
+            if(this.state.Routing === 1){        
+                
+                if(this.state.driver.user !== ""){
+                    componentRoute =
+                    <div>
+                        <h3 className="modal-text">Se completo la carrera</h3>
+                        <h3 className="modal-text">Valor a pagar: {this.state.valor}</h3>
+                        <button onClick={this.closeModalRoute} className="button-modal">Cerrar</button>
+                    </div>  
+                    this.openModalRoute();
+                    this.deleteRoute();
+                    this.setState({Routing: 0})
+
+                }
             
+            }
             
         });
         
@@ -566,15 +624,6 @@ class Maps extends Component {
             optionMarker: 1}})    
     }
 
-
-    async asyncCall() {
-
-       await setInterval(() => {
-            console.log('resolved');
-        }, 2000);
-        
-    }
-
     saveRoute() {
 
         var f = new Date();
@@ -598,7 +647,7 @@ class Maps extends Component {
             body: JSON.stringify(data)
         })
         .then(res => res.json())
-        .then(res => console.log(res.status))
+        .then(res => this.setState({driver: res.Route, valor: res.valor, isChanged: res.isChanged, Routing: 1}))
         .catch(err => console.log(err))
         
     }
@@ -615,6 +664,13 @@ class Maps extends Component {
         });
     }
 
+    openModalRoute() {
+        this.setState({openRoute: true})
+    }
+
+    closeModalRoute() {
+        this.setState({openRoute: false})
+    }
 
     render() {
 
@@ -828,6 +884,13 @@ class Maps extends Component {
                                 this.closeModalDelete();
                         }}>Cancelar</button>
                     </div>
+                </Popup>
+                <Popup
+                    className="container-modal"
+                    open={this.state.openRoute}
+                    closeOnDocumentClick={false}
+                    >
+                    {componentRoute}
                 </Popup>
             </div>
             
