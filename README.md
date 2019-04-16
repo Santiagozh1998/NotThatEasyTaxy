@@ -20,7 +20,7 @@ Una vez se esté dentro de la carpeta server, ejecutar
 ```
 psql -U postgres -h localhost NotThatEasyTaxy < NTET.sql
 ```
-## Cambiar el usuario en server.js por el local
+## Cambiar el usuario en database.js por el local
 ```
 user -> su usuario
 password -> su contraseña
